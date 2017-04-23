@@ -57,7 +57,15 @@ or even better, when/if it's possible:
 </figure>
 ```
 
+## Using MediaHelper
 
+Add the Vokseverk.MediaHelper.cs file to your project (or put it the /App_Code folder).
 
+Then in your views, add a reference to the **Vokseverk** namespace:
 
+```razor
+@using Vokseverk
+```
+
+Now you should be able to use the various `MediaHelper.RenderMedia()` versions:
 
