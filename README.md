@@ -26,7 +26,7 @@ This was powered by an included XSLT file that had a bunch of templates for hand
 
 These days, with Razor, my views are not that pretty - I'm working on it, but the example above would look something like this:
 
-```razor
+```csharp
 <figure>
 	@{
 		var mediaNode = Umbraco.TypedMedia(Model.Content.GetPropertyValue<int>("poster"));
@@ -43,7 +43,7 @@ Note that this has no `null`-checking, does only cater for the `poster` property
 
 So that's why I created this helper file — to enable me to boil the media rendering process down into a single line once again: 
 
-```razor
+```csharp
 <figure>
 	@MediaHelper.RenderMedia(Model.Content.GetPropertyValue<int>("poster"), 600)
 </figure>
@@ -51,7 +51,7 @@ So that's why I created this helper file — to enable me to boil the media rend
 
 or even better, when/if it's possible:
 
-```razor
+```csharp
 <figure>
 	@MediaHelper.RenderMedia(Model.Content.Poster, 600)
 </figure>
@@ -63,9 +63,20 @@ Add the Vokseverk.MediaHelper.cs file to your project (or put it the /App_Code f
 
 Then in your views, add a reference to the **Vokseverk** namespace:
 
-```razor
+```csharp
 @using Vokseverk
 ```
 
 Now you should be able to use the various `MediaHelper.RenderMedia()` versions:
+
+### RenderMedia(mediaId)
+
+Render the specified image, using its actual width as the 2x size
+
+### RenderMedia(mediaId, width)
+
+Render an image, specifying a specific output width (1x).
+
+### RenderMedia(mediaId, crop, width)
+
 
