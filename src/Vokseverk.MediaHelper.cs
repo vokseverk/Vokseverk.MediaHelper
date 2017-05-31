@@ -63,11 +63,15 @@ namespace Vokseverk {
 			return string.Format("//placehold.it/{0}", size);
 		}
 		
-		public static string GetMediaUrl(object mediaId) {
+				public static string GetMediaUrl(object mediaId, string cropName) {
 			try {
 				var media = umbracoHelper.TypedMedia(mediaId);
 				if (media != null) {
-					return media.Url;
+					if (!string.IsNullOrEmpty(cropName)) {
+						return media.GetCropUrl(cropName);
+					} else {
+						return media.Url;
+					}
 				} else {
 					return "(Media not found in GetMediaUrl)";
 				}
@@ -75,5 +79,10 @@ namespace Vokseverk {
 				return "(Error in GetMediaUrl)";
 			}
 		}
+
+		public static string GetMediaUrl(object mediaId) {
+			return GetMediaUrl(mediaId, "");
+		}
+
 	}
 }
