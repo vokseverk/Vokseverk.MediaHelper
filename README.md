@@ -29,7 +29,7 @@ These days, with Razor, my views are not that pretty - I'm working on it, but th
 ```csharp
 <figure>
 	@{
-		var mediaNode = Umbraco.TypedMedia(Model.Content.GetPropertyValue<int>("poster"));
+		var mediaNode = Umbraco.TypedMedia(Model.GetPropertyValue<int>("poster"));
 	}
 	<img
 		srcset="@mediaNode.GetCropUrl(width: 1200) 2x"
@@ -45,21 +45,21 @@ So that's why I created this helper file — to enable me to boil the media rend
 
 ```csharp
 <figure>
-	@MediaHelper.RenderMedia(Model.Content.GetPropertyValue<int>("poster"), 600)
+	@MediaHelper.RenderMedia(Model.GetPropertyValue<int>("poster"), 600)
 </figure>
 ```
 
-or even better, when/if it's possible:
+or even better, when/if it's possible (using Models Builder):
 
 ```csharp
 <figure>
-	@MediaHelper.RenderMedia(Model.Content.Poster, 600)
+	@MediaHelper.RenderMedia(Model.Poster, 600)
 </figure>
 ```
 
 ## Using MediaHelper
 
-Add the Vokseverk.MediaHelper.cs file to your project (or put it the /App_Code folder).
+Add the `Vokseverk.MediaHelper.cs` file to your project (or put it the `/App_Code` folder).
 
 Then in your views, add a reference to the **Vokseverk** namespace:
 
@@ -67,16 +67,29 @@ Then in your views, add a reference to the **Vokseverk** namespace:
 @using Vokseverk
 ```
 
-Now you should be able to use the various `MediaHelper.RenderMedia()` versions:
+Now you should be able to use the various media helpers.
 
-### RenderMedia(mediaId)
-
-Render the specified image, using its actual width as the 2x size
+*Note: All of the `RenderMedia` methods render an `<img>` tag with `src` and `srcset` attributes — rendering 1x and 2x URLs for the media item. The `width` parameter specifies the 1x width (the 2x width is automatically calculated).*
 
 ### RenderMedia(mediaId, width)
 
-Render an image, specifying a specific output width (1x).
+Render an image, specifying its Id and a specific output width for the image.
 
 ### RenderMedia(mediaId, crop, width)
 
+Render an image, specifying its Id with a specific crop and width.
+
+### RenderMedia(image, width)
+
+Render an image, specifying a specific output width for the image.
+
+### RenderMedia(image, crop, width)
+
+Render an image with a specific crop and width.
+
+- - - 
+
+### RenderPicture(media, sources)
+
+Render a `<picture>` tag with a set of `<source>` children
 
