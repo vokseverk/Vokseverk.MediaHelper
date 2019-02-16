@@ -69,7 +69,7 @@ Then in your views, add a reference to the **Vokseverk** namespace:
 
 Now you should be able to use the various media helpers.
 
-*Note: All of the `RenderMedia` methods render an `<img>` tag with `src` and `srcset` attributes — rendering 1x and 2x URLs for the media item. The `width` parameter specifies the 1x width (the 2x width is automatically calculated).*
+*Note: All of the `RenderMedia` methods render a single `<img>` tag with `src` and `srcset` attributes — rendering 1x and 2x URLs for the media item. The `width` parameter specifies the 1x width (the 2x width is automatically calculated). The `RenderPicture` method renders a `<picture>` element with a number of `<source>` children with `srcset` attributes, along with the default <img> fallback element.*
 
 ### RenderMedia(mediaId, width)
 
@@ -91,5 +91,18 @@ Render an image with a specific crop and width.
 
 ### RenderPicture(media, sources)
 
-Render a `<picture>` tag with a set of `<source>` children
+Render a `<picture>` tag with a set of `<source>` children. The `sources` param is a List of sources, e.g.:
 
+```csharp
+@{
+	var sources = new List<PictureSource>();
+	
+	sources.Add(new PictureSource { Media = "max375", Crop = "Portrait", Width = "400" });
+	sources.Add(new PictureSource { Media = "min376", Crop = "Landscape", Width = "800" });
+	sources.Add(new PictureSource { Media = "min1200", Crop = "Landscape", Width = "1600" });
+	// Specify `""` or `null` for the default to load in the `<img>` tag
+	sources.Add(new PictureSource { Media = "", Crop = "Landscape", Width = "600" });
+}
+
+@MediaHelper.RenderPicture(Model.PageImage, sources)
+```
