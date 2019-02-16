@@ -1,6 +1,6 @@
 # Media Helper for Umbraco Views
 
-In the good old days of XSLT, my views looked like this when I needed to render an image:
+In the good old days of XSLT, my views for sites built with [Umbraco][UMB] looked something like this when I needed to render an image:
 
 ```xslt
 <figure>
@@ -20,7 +20,7 @@ which would give me the `img` tag with both `srcset` and `src` attributes, e.g.:
 </figure>
 ```
 
-Of course, I could also pass in some parameters to customize the output but the main thing to note is that in my view file, I just put the equivalent of "Render the media here".
+Of course, I could also pass in some parameters to customize the output but the main thing to note is that in my view file, I only had to put the equivalent of "Render the media here".
 
 This was powered by an included XSLT file that had a bunch of templates for handling various scenarios; e.g. it didn't matter whether the `poster` property was an upload field or a DAMP picker - or the new Image Cropper in Umbraco 7. I could handle it so my view was just a single instruction for rendering the media.
 
@@ -49,7 +49,7 @@ So that's why I created this helper file — to enable me to boil the media rend
 </figure>
 ```
 
-or even better, when/if it's possible (using Models Builder):
+or even better, when/if possible using [Models Builder][MB]:
 
 ```csharp
 <figure>
@@ -100,9 +100,14 @@ Render a `<picture>` tag with a set of `<source>` children. The `sources` param 
 	sources.Add(new PictureSource { Media = "max375", Crop = "Portrait", Width = "400" });
 	sources.Add(new PictureSource { Media = "min376", Crop = "Landscape", Width = "800" });
 	sources.Add(new PictureSource { Media = "min1200", Crop = "Landscape", Width = "1600" });
-	// Specify `""` or `null` for the default to load in the `<img>` tag
+	// Specify Media as `""` or `null` for the default to load in the `<img>` tag
 	sources.Add(new PictureSource { Media = "", Crop = "Landscape", Width = "600" });
 }
 
 @MediaHelper.RenderPicture(Model.PageImage, sources)
 ```
+
+Again, the `Width` parameter specifies the desired 1x width of the image.
+
+[UMB]: https://umbraco.com/
+[MB]: https://our.umbraco.com/documentation/Reference/Templating/Modelsbuilder/
