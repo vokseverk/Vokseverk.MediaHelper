@@ -99,7 +99,7 @@ Render a `<picture>` tag with a set of `<source>` children. The `sources` param 
 	
 	sources.Add(new PictureSource { Media = "max375", Crop = "Portrait", Width = "400" });
 	sources.Add(new PictureSource { Media = "min376", Crop = "Landscape", Width = "800" });
-	sources.Add(new PictureSource { Media = "min1200", Crop = "Landscape", Width = "1600" });
+	sources.Add(new PictureSource { Media = "min1200", Crop = "Landscape", Width = "1400" });
 	// Specify Media as `""` or `null` for the default to load in the `<img>` tag
 	sources.Add(new PictureSource { Media = "", Crop = "Landscape", Width = "600" });
 }
@@ -108,6 +108,17 @@ Render a `<picture>` tag with a set of `<source>` children. The `sources` param 
 ```
 
 Again, the `Width` parameter specifies the desired 1x width of the image.
+
+The above would then output something like this (omitting various QueryString params for the crops):
+
+```html
+<picture>
+	<source media="(max-width: 375px)" srcset="/media/1234/image.jpg?width=800 2x,/media/1234/image.jpg?width=400">
+	<source media="(min-width: 376px)" srcset="/media/1234/image.jpg?width=1600 2x,/media/1234/image.jpg?width=800">
+	<source media="(min-width: 1200px)" srcset="/media/1234/image.jpg?width=2800 2x,/media/1234/image.jpg?width=1400">
+	<img src="/media/1234/image.jpg?width=600" alt="Image description">
+</picture>
+```
 
 ## Notes
 
