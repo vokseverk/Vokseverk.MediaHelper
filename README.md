@@ -122,8 +122,9 @@ The above would then output something like this (omitting various QueryString pa
 
 ## Notes
 
-The generated URLs have a burned-in quality setting applied — for 1x images it's `70` and for 2x it's `40`. These are values we've found works pretty great for most of the scenarios we cover, by not hurting the image quality while keeping the download sizes down. I'd like to have those values configurable but haven't found a great way yet — if you have a good suggestion, by all means let me know.
+The generated URLs have a burned-in quality setting applied — for 1x images it's `70` and for 2x it's `40`. These are values we've found works pretty great for most of the scenarios we cover, by not hurting the image quality while keeping the download sizes down. I'd like to have those values configurable but haven't found a great way yet — if you have a good suggestion, by all means [let me know.][ISSUE1]
 
 
 [UMB]: https://umbraco.com/
 [MB]: https://our.umbraco.com/documentation/Reference/Templating/Modelsbuilder/
+[ISSUE1]: https://github.com/vokseverk/Vokseverk.MediaHelper/issues/1
