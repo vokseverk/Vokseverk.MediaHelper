@@ -26,7 +26,7 @@ namespace Vokseverk {
 		/// </summary>
 		/// <param name="mediaItem">The media item to render</param>
 		/// <param name="sources">A <c>List</c> of <seealso cref="PictureSource" /> definitions to use as <c>source</c> elements</param>
-		/// <param name="cssClass">An optional CSS class name to put on the <c>picture</c> tag</param>
+		/// <param name="cssClass">An optional CSS classname to put on the <c>picture</c> tag</param>
 		/// <example>
 		/// <code>
 		/// @{
