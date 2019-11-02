@@ -97,11 +97,11 @@ Render a `<picture>` tag with a set of `<source>` children. The `sources` param 
 @{
 	var sources = new List<PictureSource>();
 	
-	sources.Add(new PictureSource { Media = "max375", Crop = "Portrait", Width = "400" });
-	sources.Add(new PictureSource { Media = "min376", Crop = "Landscape", Width = "800" });
-	sources.Add(new PictureSource { Media = "min1200", Crop = "Landscape", Width = "1400" });
+	sources.Add(new PictureSource { Media = "max375", Crop = "Portrait", Width = 400 });
+	sources.Add(new PictureSource { Media = "min376", Crop = "Landscape", Width = 800 });
+	sources.Add(new PictureSource { Media = "min1200", Crop = "Landscape", Width = 1400 });
 	// Specify Media as `""` or `null` for the default to load in the `<img>` tag
-	sources.Add(new PictureSource { Media = "", Crop = "Landscape", Width = "600" });
+	sources.Add(new PictureSource { Media = "", Crop = "Landscape", Width = 600 });
 }
 
 @MediaHelper.RenderPicture(Model.PageImage, sources)

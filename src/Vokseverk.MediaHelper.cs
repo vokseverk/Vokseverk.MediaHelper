@@ -32,11 +32,11 @@ namespace Vokseverk {
 		/// @{
 		///   var sources = new List<PictureSource>();
 		///   
-		///   sources.Add(new PictureSource { Media = "max375", Crop = "Portrait", Width = "400" });
-		///   sources.Add(new PictureSource { Media = "min376", Crop = "Landscape", Width = "800" });
-		///   sources.Add(new PictureSource { Media = "min1200", Crop = "Landscape", Width = "1600" });
+		///   sources.Add(new PictureSource { Media = "max375", Crop = "Portrait", Width = 400 });
+		///   sources.Add(new PictureSource { Media = "min376", Crop = "Landscape", Width = 800 });
+		///   sources.Add(new PictureSource { Media = "min1200", Crop = "Landscape", Width = 1600 });
 		///   // Specify `""` or `null` for the default to load in the `<img>` tag
-		///   sources.Add(new PictureSource { Media = "", Crop = "Landscape", Width = "600" });
+		///   sources.Add(new PictureSource { Media = "", Crop = "Landscape", Width = 600 });
 		/// }
 		/// @MediaHelper.RenderPicture(Model.PageImage, sources)
 		/// </code>
