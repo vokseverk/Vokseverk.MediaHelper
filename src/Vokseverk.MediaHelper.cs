@@ -118,14 +118,14 @@ namespace Vokseverk {
 			
 			try {
 				if (image != null) {
-					var url = GetMediaUrl(image);
-					var combiner = url.Contains("?") ? "&" : "?";
-					var size1x = string.Format("{0}{1}width={2}&quality=70", url, combiner, width);
-					var size2x = string.Format("{0}{1}width={2}&quality=40", url, combiner, width * 2);
+					var url = image.Url;
+					var dimensions = GetMediaSize(image, width);
+					var size1x = image.GetCropUrl(width: width, quality: 70);
+					var size2x = image.GetCropUrl(width: width * 2, quality: 40);
 					
-					var extension = image.Value<string>("umbracoExtension");
+					var extension = image.Value<string>("UmbracoExtension");
 					imageTag = extension == "gif"
-						? GetOutputTag(url, image.Name)
+						? GetOutputTag(url, image.Name) // Don't resize GIFs
 						: GetOutputTag(size1x, size2x, image.Name);
 				}
 			} catch (Exception ex) {
