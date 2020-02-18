@@ -218,13 +218,22 @@ namespace Vokseverk {
 
 		#region Private
 		
+		// Actual <img> tag rendering
 		private static string GetOutputTag(string image, string altText) {
 			return string.Format("<img src=\"{0}\" alt=\"{1}\" />", image, altText);
 		}
+		private static string GetOutputTag(string image, string altText, MediaSize sizes) {
+			return string.Format("<img src=\"{0}\" width=\"{2}\" height=\"{3}\" alt=\"{1}\" />", image, altText, sizes.Width, sizes.Height);
+		}
 		
+		// Overloads for a retina-ready image (srcset w/ 2x)
 		private static string GetOutputTag(string size1x, string size2x, string altText) {
 			return string.Format("<img srcset=\"{0} 2x\" src=\"{1}\" alt=\"{2}\" />", size2x, size1x, altText);
 		}
+		private static string GetOutputTag(string size1x, string size2x, string altText, MediaSize sizes) {
+			return string.Format("<img srcset=\"{0} 2x\" src=\"{1}\" width=\"{3}\" height=\"{4}\" alt=\"{2}\" />", size2x, size1x, altText, sizes.Width, sizes.Height);
+		}
+		
 		
 		private static string GetSourceTag(string size1x, string size2x, string media = "") {
 			var outputTag = "";
