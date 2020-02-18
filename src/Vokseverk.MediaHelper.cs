@@ -125,8 +125,8 @@ namespace Vokseverk {
 					
 					var extension = image.Value<string>("UmbracoExtension");
 					imageTag = extension == "gif"
-						? GetOutputTag(url, image.Name) // Don't resize GIFs
-						: GetOutputTag(size1x, size2x, image.Name);
+						? GetOutputTag(url, image.Name, dimensions) // Don't resize GIFs
+						: GetOutputTag(size1x, size2x, image.Name, dimensions);
 				}
 			} catch (Exception ex) {
 				imageTag = GetOutputTag("/media/blank.png", string.Format("Could not find media item. ({0})", ex.Message));
