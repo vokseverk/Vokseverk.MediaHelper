@@ -80,7 +80,7 @@ namespace Vokseverk {
 				var mediaRatio = Decimal.Divide(mediaHeight, mediaWidth);
 				
 				result.Width = newWidth > 0 ? newWidth : mediaWidth;
-				result.Height = newWidth > 0 ? (int)(mediaWidth * mediaRatio) : mediaHeight;
+				result.Height = newWidth > 0 ? (int)(newWidth * mediaRatio) : mediaHeight;
 				result.Ratio = mediaRatio;
 			}
 			
