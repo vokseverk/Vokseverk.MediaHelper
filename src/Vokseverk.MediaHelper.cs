@@ -81,16 +81,6 @@ namespace Vokseverk {
 			return result;
 		}
 		
-		public static HtmlString RenderMedia(object mediaId, string crop, int width) {
-			// TODO: Find new way of getting an `UmbracoHelper` ...
-			return new HtmlString("Not implemented yet");
-		}
-
-		public static HtmlString RenderMedia(object mediaId, int width) {
-			// TODO: Find new way of getting an `UmbracoHelper` ...
-			return new HtmlString("Not implemented yet");
-		}
-		
 		/// <summary>
 		/// Render an img tag with srcset and src attributes for a media item,
 		/// using the specified crop and output width.
