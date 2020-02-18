@@ -19,6 +19,11 @@ namespace Vokseverk {
 		public int Width { get; set; }
 	}
 	
+	public class MediaSize {
+		public int Width { get; set; }
+		public int Height { get; set; }
+	}
+	
 	public class MediaHelper {
 				
 		/// <summary>
@@ -61,6 +66,20 @@ namespace Vokseverk {
 			return new HtmlString(html);
 		}
 		
+		/// <summary>
+		/// Retrieves the width and height of a media item.
+		/// Returns 0 for both if either of the properties are missing.
+		/// </summary>
+		public static MediaSize GetMediaSize(IPublishedContent media) {
+			var result = new MediaSize { Width = 0, Height = 0 };
+			
+			if (media.HasProperty("UmbracoWidth") && media.HasProperty("UmbracoHeight")) {
+				result.Width = media.Value<int>("UmbracoWidth");
+				result.Height = media.Value<int>("UmbracoHeight");
+			}
+			
+			return result;
+		}
 		
 		public static HtmlString RenderMedia(object mediaId, string crop, int width) {
 			// TODO: Find new way of getting an `UmbracoHelper` ...
