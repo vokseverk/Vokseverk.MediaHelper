@@ -22,6 +22,7 @@ namespace Vokseverk {
 	public class MediaSize {
 		public int Width { get; set; }
 		public int Height { get; set; }
+		public decimal Ratio { get; set; }
 	}
 	
 	public class MediaHelper {
@@ -70,12 +71,17 @@ namespace Vokseverk {
 		/// Retrieves the width and height of a media item.
 		/// Returns 0 for both if either of the properties are missing.
 		/// </summary>
-		public static MediaSize GetMediaSize(IPublishedContent media) {
-			var result = new MediaSize { Width = 0, Height = 0 };
+		public static MediaSize GetMediaSize(IPublishedContent media, int newWidth = 0) {
+			var result = new MediaSize { Width = 0, Height = 0, Ratio = 1.0M };
 			
 			if (media.HasProperty("UmbracoWidth") && media.HasProperty("UmbracoHeight")) {
-				result.Width = media.Value<int>("UmbracoWidth");
-				result.Height = media.Value<int>("UmbracoHeight");
+				var mediaWidth = media.Value<int>("UmbracoWidth");
+				var mediaHeight = media.Value<int>("UmbracoHeight");
+				var mediaRatio = Decimal.Divide(mediaHeight, mediaWidth);
+				
+				result.Width = newWidth > 0 ? newWidth : mediaWidth;
+				result.Height = newWidth > 0 ? (int)(mediaWidth * mediaRatio) : mediaHeight;
+				result.Ratio = mediaRatio;
 			}
 			
 			return result;
