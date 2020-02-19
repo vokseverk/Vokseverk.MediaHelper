@@ -2,6 +2,7 @@
 using Umbraco.Web;
 using Umbraco.Core.Models;
 using Umbraco.Core.Models.PublishedContent;
+using Umbraco.Core.PropertyEditors.ValueConverters;
 using System;
 using System.Collections.Generic;
 using System.Web;
@@ -68,7 +69,7 @@ namespace Vokseverk {
 		}
 		
 		/// <summary>
-		/// Retrieves the width and height of a media item.
+		/// Retrieves the width, height and aspect ratio of a media item.
 		/// Returns 0 for both if either of the properties are missing.
 		/// </summary>
 		public static MediaSize GetMediaSize(IPublishedContent media, int newWidth = 0) {
@@ -88,6 +89,28 @@ namespace Vokseverk {
 		}
 		
 		/// <summary>
+		/// Retrieves the width, height and aspect ratio of a specific crop.
+		/// </summary>
+		public static MediaSize GetCropSize(IPublishedContent media, string crop, int newWidth = 0) {
+			var result = new MediaSize { Width = 0, Height = 0, Ratio = 1.0M };
+
+			var cropperValue = media.Value<ImageCropperValue>("UmbracoFile");
+			var cropData = cropperValue != null ? cropperValue.GetCrop(crop) : null;
+			
+			if (cropData != null) {
+				var cropWidth = cropData.Width;
+				var cropHeight = cropData.Height;
+				var cropRatio = Decimal.Divide(cropHeight, cropWidth);
+				
+				result.Width = newWidth > 0 ? newWidth : cropWidth;
+				result.Height = newWidth > 0 ? (int)(newWidth * cropRatio) : cropHeight;
+				result.Ratio = cropRatio;
+			}
+			
+			return result;
+		}
+		
+		/// <summary>
 		/// Render an img tag with srcset and src attributes for a media item,
 		/// using the specified crop and output width.
 		/// </summary>
@@ -96,10 +119,12 @@ namespace Vokseverk {
 			
 			try {
 				if (image != null) {
+					var dimensions = GetCropSize(image, crop, width);
+					
 					var crop1x = image.GetCropUrl(cropAlias: crop, width: width, quality: 70);
 					var crop2x = image.GetCropUrl(cropAlias: crop, width: width * 2, quality: 40);
 					
-					imageTag = GetOutputTag(crop1x, crop2x, image.Name);
+					imageTag = GetOutputTag(crop1x, crop2x, image.Name, dimensions);
 				}
 			} catch (Exception ex) {
 				imageTag = GetOutputTag("/media/blank.png", string.Format("Did not find the media item. ({0})", ex.Message));
