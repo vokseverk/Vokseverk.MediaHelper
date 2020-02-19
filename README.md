@@ -1,6 +1,7 @@
 # Media Helper for Umbraco Views
 
-In the good old days of XSLT, my views for sites built with [Umbraco][UMB] looked something like this when I needed to render an image:
+In the good old days of XSLT, my views for sites built with [Umbraco][UMB]
+looked something like this when I needed to render an image:
 
 ```xslt
 <figure>
@@ -20,11 +21,18 @@ which would give me the `img` tag with both `srcset` and `src` attributes, e.g.:
 </figure>
 ```
 
-Of course, I could also pass in some parameters to customize the output but the main thing to note is that in my view file, I only had to put the equivalent of "Render the media here".
+I could also pass in some parameters to customize the output but the main thing
+to note is that in my view file, I only had to put the equivalent of
+"Render the media here".
 
-This was powered by an included XSLT file that had a bunch of templates for handling various scenarios; e.g. it didn't matter whether the `poster` property was an upload field or a DAMP picker - or the new Image Cropper in Umbraco 7. I could handle it so my view was just a single instruction for rendering the media.
+This was powered by an included XSLT file that had a bunch of templates for
+handling various scenarios; e.g. it didn't matter whether the `poster` property
+was an upload field or a DAMP picker - or the new Image Cropper in Umbraco 7.
+I could handle it so my view was just a single instruction for rendering the
+media.
 
-These days, with Razor, my views are not that pretty - I'm working on it, but the example above would look something like this:
+These days, with Razor, my views are not that pretty - I'm working on it, but
+the example above would look something like this:
 
 ```csharp
 <figure>
@@ -39,9 +47,12 @@ These days, with Razor, my views are not that pretty - I'm working on it, but th
 </figure>
 ```
 
-Note that this has no `null`-checking, does only cater for the `poster` property being a Media Picker and generally looks like a whole lot of work to "just" display an image.
+Note that this has no `null`-checking, does only cater for the `poster` property
+being a Media Picker and generally looks like a whole lot of work to "just"
+display an image.
 
-So that's why I created this helper file — to enable me to boil the media rendering process down into a single line once again: 
+So that's why I created this helper file — to enable me to boil the media
+rendering process down into a single line once again:
 
 ```csharp
 <figure>
@@ -59,7 +70,8 @@ or even better, when/if possible using [Models Builder][MB]:
 
 ## Using MediaHelper
 
-Add the `Vokseverk.MediaHelper.cs` file to your project (or put it the `/App_Code` folder).
+Add the `Vokseverk.MediaHelper.cs` file to your project (or put it the
+`/App_Code` folder).
 
 Then in your views, add a reference to the **Vokseverk** namespace:
 
@@ -69,15 +81,7 @@ Then in your views, add a reference to the **Vokseverk** namespace:
 
 Now you should be able to use the various media helpers.
 
-*Note: All of the `RenderMedia` methods render a single `<img>` tag with `src` and `srcset` attributes — rendering 1x and 2x URLs for the media item. The `width` parameter specifies the 1x width (the 2x width is automatically calculated). The `RenderPicture` method renders a `<picture>` element with a number of `<source>` children with `srcset` attributes, along with the default <img> fallback element.*
-
-### RenderMedia(mediaId, width)
-
-Render an image, specifying its Id and a specific output width for the image.
-
-### RenderMedia(mediaId, crop, width)
-
-Render an image, specifying its Id with a specific crop and width.
+*All of the `RenderMedia` methods render a single `<img>` tag with `src` and `srcset` attributes — rendering 1x and 2x URLs for the media item. The `width` parameter specifies the 1x width (the 2x width is automatically calculated).*
 
 ### RenderMedia(image, width)
 
@@ -88,6 +92,8 @@ Render an image, specifying a specific output width for the image.
 Render an image with a specific crop and width.
 
 - - - 
+
+*The `RenderPicture` method renders a `<picture>` element with a number of `<source>` children with `srcset` attributes, along with the default <img> fallback element.*
 
 ### RenderPicture(media, sources)
 
@@ -122,9 +128,22 @@ The above would then output something like this (omitting various QueryString pa
 
 ## Notes
 
-The generated URLs have a burned-in quality setting applied — for 1x images it's `70` and for 2x it's `40`. These are values we've found works pretty great for most of the scenarios we cover, by not hurting the image quality while keeping the download sizes down. I'd like to have those values configurable but haven't found a great way yet — if you have a good suggestion, by all means [let me know.][ISSUE1]
+The generated URLs have a burned-in quality setting applied — for 1x images
+it's `70` and for 2x it's `40`. These are values we've found works pretty great
+for most of the scenarios we cover, by not hurting the image quality while
+keeping the download sizes down. I'd like to have those values configurable
+but haven't found a great way yet — if you have a good suggestion, by all means
+[let me know.][ISSUE1]
+
+
+## FAQ
+
+### Wasn't there a version for Umbraco 7?
+
+Yes - it started as a v7 helper. Find it on the [releases][RELEASES] page.
 
 
 [UMB]: https://umbraco.com/
 [MB]: https://our.umbraco.com/documentation/Reference/Templating/Modelsbuilder/
 [ISSUE1]: https://github.com/vokseverk/Vokseverk.MediaHelper/issues/1
+[RELEASES]: https://github.com/vokseverk/Vokseverk.MediaHelper/releases/
