@@ -166,9 +166,16 @@ namespace Vokseverk {
 					var size2x = image.GetCropUrl(width: width * 2, quality: 40);
 					
 					var extension = image.Value<string>("UmbracoExtension");
-					imageTag = extension == "gif"
-						? GetOutputTag(url, image.Name, dimensions) // Don't resize GIFs
-						: GetOutputTag(size1x, size2x, image.Name, dimensions);
+					
+					if (extension == "gif") {
+						// Don't resize GIFs
+						imageTag = GetOutputTag(url, image.Name, dimensions);
+					} else if (extension == "svg") {
+						// Use the supplied width for SVGs
+						imageTag = GetOutputTag(url, image.Name, width);
+					} else {
+						imageTag = GetOutputTag(size1x, size2x, image.Name, dimensions);
+					}
 				}
 			} catch (Exception ex) {
 				imageTag = GetOutputTag("/media/blank.png", string.Format("Could not find media item. ({0})", ex.Message));
