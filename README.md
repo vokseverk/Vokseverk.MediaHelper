@@ -126,6 +126,24 @@ The above would then output something like this (omitting various QueryString pa
 </picture>
 ```
 
+#### Setting ids and/or classes
+
+The `RenderPicture` helper allows you to specify `id` and `class` attributes for
+both the `picture` and `img` elements by way of two `string` arguments, e.g.:
+
+```csharp
+@RenderPicture(image, sources, "#slide1.showing", ".square.half")
+```
+
+to render something like this:
+
+```html
+<picture id="slide1" class="showing">
+	<source srcset="...">
+	<img class="square half" src="...">
+</picture>
+```
+
 ## Notes
 
 The generated URLs have a burned-in quality setting applied — for 1x images
