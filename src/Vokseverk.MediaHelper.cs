@@ -30,27 +30,22 @@ namespace Vokseverk {
 				
 		/// <summary>
 		/// Render a `picture` tag with specified source elements
+		/// the (picture|img)Attrs are string like "#pic1.showing.off"
+		/// that can assign an id and/or multiple classnames
 		/// </summary>
-		/// <param name="mediaItem">The media item to render</param>
-		/// <param name="sources">A <c>List</c> of <seealso cref="PictureSource" /> definitions to use as <c>source</c> elements</param>
-		/// <param name="cssClass">An optional CSS classname to put on the <c>picture</c> tag</param>
-		/// <example>
-		/// <code>
-		/// @{
-		///   var sources = new List<PictureSource>();
-		///   
-		///   sources.Add(new PictureSource { Media = "max375", Crop = "Portrait", Width = 400 });
-		///   sources.Add(new PictureSource { Media = "min376", Crop = "Landscape", Width = 800 });
-		///   sources.Add(new PictureSource { Media = "min1200", Crop = "Landscape", Width = 1600 });
-		///   // Specify `""` or `null` for the default to load in the `<img>` tag
-		///   sources.Add(new PictureSource { Media = "", Crop = "Landscape", Width = 600 });
-		/// }
-		/// @MediaHelper.RenderPicture(Model.PageImage, sources)
-		/// </code>
-		/// </example>
-		public static HtmlString RenderPicture(IPublishedContent mediaItem, List<PictureSource> sources, string cssClass = "") {
-			var html = string.Format("<picture class=\"{0}\">", cssClass);
-			html = html.Replace(" class=\"\"", "");
+		public static HtmlString RenderPicture(IPublishedContent mediaItem, List<PictureSource> sources, string pictureAttrs = "", string imgAttrs = "") {
+			var pictureClass = GetClassesFromAttrString(pictureAttrs);
+			var pictureId = GetIdFromAttrString(pictureAttrs);
+			
+			var html = "<picture";
+			if (pictureId != "") {
+				html += $" id=\"{pictureId}\"";
+			}
+			if (pictureClass != "") {
+				html += $" class=\"{pictureClass}\"";
+			}
+			html += ">";
+			
 			string mediaAttr = "";
 			
 			try {
@@ -77,6 +72,15 @@ namespace Vokseverk {
 				}
 			} catch (Exception ex) {
 				html += "<p style=\"color:red;font-weight:bold;\">Error: " + ex.Message + "</p>";
+			}
+			
+			var imgClass = GetClassesFromAttrString(imgAttrs);
+			var imgId = GetIdFromAttrString(imgAttrs);
+			if (imgClass != "") {
+				html = html.Replace("<img ", $"<img class=\"{imgClass}\" ");
+			}
+			if (imgId != "") {
+				html = html.Replace("<img ", $"<img id=\"{imgId}\" ");
 			}
 			
 			// Return a HtmlString
@@ -297,6 +301,30 @@ namespace Vokseverk {
 			}
 			
 			return outputTag;
+		}
+	
+		private static string GetIdFromAttrString(string attrs) {
+			var id = "";
+		
+			var attrRE = new Regex(@"^#([^\.]+)");
+			var match = attrRE.Match(attrs);
+			if (match.Success) {
+				id = match.Groups[1].Value;
+			}
+		
+			return id;
+		}
+	
+		private static string GetClassesFromAttrString(string attrs) {
+			var klasses = "";
+		
+			var attrRE = new Regex(@"\.(.+)$");
+			var match = attrRE.Match(attrs);
+			if (match.Success) {
+				klasses = match.Groups[1].Value.Replace(".", " ");
+			}
+		
+			return klasses;
 		}
 		
 		#endregion
