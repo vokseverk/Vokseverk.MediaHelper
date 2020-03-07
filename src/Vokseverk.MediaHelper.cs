@@ -264,6 +264,9 @@ namespace Vokseverk {
 		private static string GetOutputTag(string image, string altText) {
 			return string.Format("<img src=\"{0}\" alt=\"{1}\" />", image, altText);
 		}
+		private static string GetOutputTag(string image, string altText, int width) {
+			return $"<img src=\"{image}\" alt=\"{altText}\" width=\"{width}\" />";
+		}
 		private static string GetOutputTag(string image, string altText, MediaSize sizes) {
 			return string.Format("<img src=\"{0}\" width=\"{2}\" height=\"{3}\" alt=\"{1}\" />", image, altText, sizes.Width, sizes.Height);
 		}
