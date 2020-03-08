@@ -149,9 +149,8 @@ to render something like this:
 The generated URLs have a burned-in quality setting applied — for 1x images
 it's `70` and for 2x it's `40`. These are values we've found works pretty great
 for most of the scenarios we cover, by not hurting the image quality while
-keeping the download sizes down. I'd like to have those values configurable
-but haven't found a great way yet — if you have a good suggestion, by all means
-[let me know.][ISSUE1]
+keeping the download sizes down. They're defined as constants so they're at
+least configurable if you need to change them.
 
 
 ## FAQ
