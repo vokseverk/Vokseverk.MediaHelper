@@ -14,6 +14,15 @@ using System.Xml.XPath;
 
 namespace Vokseverk {
 	
+	internal static partial class Constants {
+		internal static partial class Media {
+			internal static partial class Quality {
+				public const int Retina = 40;
+				public const int Standard = 70;
+			}
+		}
+	}
+	
 	public class PictureSource {
 		public string Media { get; set; }
 		public string Crop { get; set; }
