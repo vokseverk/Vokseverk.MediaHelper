@@ -59,8 +59,8 @@ namespace Vokseverk {
 			
 			try {
 				foreach (var source in sources) {
-					var mediaURL1x = mediaItem.GetCropUrl(cropAlias: source.Crop, width: source.Width, quality: 70);
-					var mediaURL2x = mediaItem.GetCropUrl(cropAlias: source.Crop, width: source.Width * 2, quality: 40);
+					var mediaURL1x = mediaItem.GetCropUrl(cropAlias: source.Crop, width: source.Width, quality: Constants.Media.Quality.Standard);
+					var mediaURL2x = mediaItem.GetCropUrl(cropAlias: source.Crop, width: source.Width * 2, quality: Constants.Media.Quality.Retina);
 
 					if (source.Media == "2x") {
 						// Special case for rendering a single image for 1x and 2x using a `<picture<` tag
@@ -151,8 +151,8 @@ namespace Vokseverk {
 				if (image != null) {
 					var dimensions = GetCropSize(image, crop, width);
 					
-					var crop1x = image.GetCropUrl(cropAlias: crop, width: width, quality: 70);
-					var crop2x = image.GetCropUrl(cropAlias: crop, width: width * 2, quality: 40);
+					var crop1x = image.GetCropUrl(cropAlias: crop, width: width, quality: Constants.Media.Quality.Standard);
+					var crop2x = image.GetCropUrl(cropAlias: crop, width: width * 2, quality: Constants.Media.Quality.Retina);
 					
 					imageTag = GetOutputTag(crop1x, crop2x, image.Name, dimensions);
 				}
@@ -175,8 +175,8 @@ namespace Vokseverk {
 				if (image != null) {
 					var url = image.Url;
 					var dimensions = GetMediaSize(image, width);
-					var size1x = image.GetCropUrl(width: width, quality: 70);
-					var size2x = image.GetCropUrl(width: width * 2, quality: 40);
+					var size1x = image.GetCropUrl(width: width, quality: Constants.Media.Quality.Standard);
+					var size2x = image.GetCropUrl(width: width * 2, quality: Constants.Media.Quality.Retina);
 					
 					var extension = image.Value<string>("UmbracoExtension");
 					
@@ -214,8 +214,8 @@ namespace Vokseverk {
 				var dimensions = size.Split('x');
 
 				if (Int32.TryParse(dimensions[0], out w) && Int32.TryParse(dimensions[1], out h)) {
-					var size1x = string.Format("{0}?width={1}&height={2}&quality=70", mediaUrl, w, h);
-					var size2x = string.Format("{0}?width={1}&height={2}&quality=40", mediaUrl, w * 2, h * 2);
+					var size1x = string.Format("{0}?width={1}&height={2}&quality={3}", mediaUrl, w, h, Constants.Media.Quality.Standard);
+					var size2x = string.Format("{0}?width={1}&height={2}&quality={3}", mediaUrl, w * 2, h * 2, Constants.Media.Quality.Retina);
 				
 					imageTag = GetOutputTag(size1x, size2x, image.Name);
 				}
@@ -244,7 +244,7 @@ namespace Vokseverk {
 		/// <summary>
 		/// Single point of getting a URL for a mediaitem
 		/// </summary>
-		public static string GetCropUrl(IPublishedContent mediaItem, string crop, int width, int quality = 70) {
+		public static string GetCropUrl(IPublishedContent mediaItem, string crop, int width, int quality = Constants.Media.Quality.Standard) {
 			string outputUrl = "";
 			
 			try {
